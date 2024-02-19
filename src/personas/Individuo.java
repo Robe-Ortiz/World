@@ -94,6 +94,8 @@ public class Individuo implements Movimiento, Comparable<Individuo>{
 	public void correr() {
 		if(puedeCorrer)
 			metrosTotalesDesplazados += 500;
+                else
+                        andar();
 		
 	}
 	
