@@ -89,6 +89,18 @@ public class BloqueOficinas extends Edificio implements MoverteEntrePlantas {
 		}
 	}
 	
+	public void reportBloqueOficinas() {
+
+		if(individuosPorPlanta.isEmpty()) {
+			System.out.println("El edificio está vacío.");
+			return;
+		}
+		System.out.println("Las personas que se encuentran en el edificio son:");
+		for(Map.Entry<Individuo,Integer> persona : individuosPorPlanta.entrySet()) {
+			System.out.printf("%s en la planta %d.\n",persona.getKey().getNombre(),persona.getValue());
+		}
+	}
+	
 	
 	@Override
 	public String toString() {
