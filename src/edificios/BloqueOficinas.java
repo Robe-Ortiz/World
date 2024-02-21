@@ -15,29 +15,31 @@ public class BloqueOficinas extends Edificio implements MoverteEntrePlantas {
 		this.numeroDePlantas = numeroDePlantas;		
 	}
 
-	
-	@Override
-	public void entrarEdificio(Individuo persona) {
-		if(individuosPorPlanta.containsKey(persona))
-			return;
-		individuosPorPlanta.put(persona, 0);
-		persona.setPuedeCorrer(false);
-		
-	}
-
-	@Override
-	public void salirEdificio(Individuo persona) {
-		if(individuosPorPlanta.containsKey(persona) && individuosPorPlanta.get(persona) == 0) {
-			individuosPorPlanta.remove(persona);
-			persona.setPuedeCorrer(true);
-		}
-	}
-	
 	private boolean siNoEstaEnElEdificio(Individuo persona) {
 		if(!individuosPorPlanta.containsKey(persona))
 			return true;
 		return false;
 	}
+	
+	@Override
+	public void entrarEdificio(Individuo persona) {
+		if(siNoEstaEnElEdificio(persona) && persona.isEstaEnElExterior()) {
+			individuosPorPlanta.put(persona, 0);
+			persona.setPuedeCorrer(false);
+			persona.setEstaEnElExterior(false);
+		}
+	}
+
+	@Override
+	public void salirEdificio(Individuo persona) {
+		if(! siNoEstaEnElEdificio(persona) && individuosPorPlanta.get(persona) == 0) {
+			individuosPorPlanta.remove(persona);
+			persona.setPuedeCorrer(true);
+			persona.setEstaEnElExterior(true);
+		}
+	}
+	
+
 	
 	@Override
 	public void subirUnaPlantaPorEscalera(Individuo persona) {
@@ -84,10 +86,20 @@ public class BloqueOficinas extends Edificio implements MoverteEntrePlantas {
 			System.out.printf("%s %s con dni: %s no se encuentra en el edificio.\n",
 			persona.getNombre(),persona.getPrimerApellido(), persona.getDni());
 		}else {
-			System.out.printf("%s %s con dni: %s se encuentra en la planta %s.",
+			System.out.printf("%s %s con dni: %s se encuentra en la planta %s.\n",
 			persona.getNombre(),persona.getPrimerApellido(), persona.getDni(),individuosPorPlanta.get(persona));
 		}
 	}
+	
+	public  void saberQuienEstaEnUnaPlanta(Integer planta) {
+		System.out.printf("Lista de personas que se encuentran en la planta: %d\n",planta);
+		individuosPorPlanta.forEach((persona,plantaPersona)->{
+			if(plantaPersona == planta) {
+				System.out.printf("%s %s\n",persona.getNombre(),persona.getPrimerApellido());
+			}
+		});
+	}
+	
 	
 	public void reportBloqueOficinas() {
 

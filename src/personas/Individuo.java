@@ -13,6 +13,7 @@ public class Individuo implements Movimiento, Comparable<Individuo>{
 	private Integer anioNacimiento;
 	private String dni;
 	private boolean puedeCorrer;
+	private boolean estaEnElExterior;
 
 	public Individuo(String nombre, String primerApellido,String segundoApellido, Continente continenteDeOrigen, Integer anioNacimiento,Integer dniSinLetra) {
 		this.nombre = nombre;
@@ -23,6 +24,7 @@ public class Individuo implements Movimiento, Comparable<Individuo>{
 		this.dni = asignarLetraDni(dniSinLetra);
 		metrosTotalesDesplazados = 0;
 		this.puedeCorrer = true;
+		this.estaEnElExterior = true;
 	}
 
 	
@@ -36,6 +38,9 @@ public class Individuo implements Movimiento, Comparable<Individuo>{
 	public String getDni() {
 		return dni;
 	}
+	public Integer getAnioNacimiento() {
+		return anioNacimiento;
+	}
 	public int getMetrosTotalesDesplazados() {
 		return metrosTotalesDesplazados;
 	}
@@ -44,6 +49,12 @@ public class Individuo implements Movimiento, Comparable<Individuo>{
 	}
 	public void setPuedeCorrer(boolean puedeCorrer) {
 		this.puedeCorrer = puedeCorrer;
+	}
+	public boolean isEstaEnElExterior() {
+		return estaEnElExterior;
+	}
+	public void setEstaEnElExterior(boolean estaEnElExterior) {
+		this.estaEnElExterior = estaEnElExterior;
 	}
 
 
@@ -121,11 +132,16 @@ public class Individuo implements Movimiento, Comparable<Individuo>{
 	}
 
 
-	@Override
-	public int compareTo(Individuo persona) {		
-		return this.anioNacimiento - persona.anioNacimiento;
+	@Override	
+	public int compareTo(Individuo persona) {	
+		if(this.anioNacimiento - persona.anioNacimiento != 0) {
+			return this.anioNacimiento - persona.anioNacimiento;
+		}else if(this.getNombre().compareTo(persona.nombre) != 0) {
+			return this.getNombre().compareTo(persona.nombre);		
+		}else {
+			return this.getDni().compareTo(persona.getDni());
+		}
 	}
-	
 	
 	
 }
